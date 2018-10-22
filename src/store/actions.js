@@ -19,6 +19,9 @@ const actions={
 	setDropDown({commit},value){
 		commit('SET_DROPDOWN',value)
 	},
+	setTop({commit},value){
+		commit('SET_TOP',value)
+	},
 	addOrUpdate({commit},value){
 		commit('ADD_OR_UPDATE',value)
 	}

@@ -1,5 +1,5 @@
 export default {
-  Hallowmas:'/api/index_ad?cid=20180330154400',
+  login:'/api/login',
   //接口代理配置
 }
 

@@ -9,14 +9,18 @@ const mutations={
 	//添加便签
 	[types.ADD_NOTES](state,data){
 
-		let isTopIndex=0;
+		let isTopIndex=-1;
 		state.notes.forEach((item,index)=>{
 			if(item.isTop){
 				isTopIndex=index
 			}
 		})
-		if(isTopIndex>0){//有置顶数据的情况下，找到置顶最后一条的位置
-			state.notes.splice(isTopIndex+1,0,data)
+		if(isTopIndex>=0){//有置顶数据的情况下，找到置顶最后一条的位置
+			if(data.isTop){//新增的时候已经设置过了置顶，则显示在第一条
+				state.notes.unshift(data)
+			}else{
+				state.notes.splice(isTopIndex+1,0,data)
+			}
 		}else{
 			state.notes.unshift(data)
 		}
@@ -40,6 +44,10 @@ const mutations={
 	//设置dropdown显示状态
 	[types.SET_DROPDOWN](state,value){
 		state.showDropDown=value
+	},
+	//设置置顶便签
+	[types.SET_TOP](state,value){
+		state.isTop=value
 	},
 	//设置便签是新增还是更新操作
 	[types.ADD_OR_UPDATE](state,value){

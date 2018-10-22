@@ -70,33 +70,23 @@
 					localStorage.setItem('notes',JSON.stringify(this.$store.state.notes))
 
 				}else{//新增
+					console.log(this.$store.state.isTop)
 					let data={
 						id:this.$store.state.notesID+1,
 						content:this.content,
-						isTop:false,
+						isTop:!this.$store.state.isTop?true:false,
 						date:new Date().getTime()
 					};
 					this.$store.dispatch('saveNotesID',data.id)
 					this.$store.dispatch('addNotes',data)
-
-
 
 				}
 				this.$router.push('/')
 				
 			}
 		},
-		watch:{
-		  $route(to,from){
-		   if(from.query.id){
-		    	this.content=this.defaultRuleForm.content;
-		    }
-		  }
-		},
 		mounted(){
-			console.log(this.$route.query)
-
-	    	this.defaultRuleForm=JSON.parse(JSON.stringify(this.$store.state.notesUpdateData));
+			
 			if(this.$route.query.id){
 				console.log(this.$store.state)
 				this.content=this.$store.state.notesUpdateData.content;
