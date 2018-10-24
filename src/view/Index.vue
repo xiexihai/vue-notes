@@ -1,15 +1,23 @@
 <template>
 	<div class="notesList">
-		<div class="notesItem" v-for="(item,index) in notes" :class="{isTop:item.isTop}" @click="editNotes(item)">
+		<input type="text" v-model="keywords" name="">
+		<div class="notesType">
+			<div class="item" :class="{active:item==selectType}" v-for="(item,index) in types" @click="handlerSelectType(item)">{{item}}</div>
+		</div>
+		<div class="notesItem" v-for="(item,index) in notes" :class="{isTop:item.isTop}" @click="editNotes(item)" v-if="notes.length">
 			<div class="notesText">
-				<div class="notesTitle">{{item.content}}</div>
+				<div class="notesTitle" v-html="filterHtmlStr(item.content)"></div>
 				<div class="notesTime">{{item.date}}</div>
 			</div>	
 		</div>
+		<div class="notesEmpty" v-if="!notes.length">暂无便签！</div>
 		<div class="btnAddNotes" @click="addNotes">+</div>
 	</div>
 </template>
 <style scoped>
+	.notesType .active{
+		color:red;
+	}	
 	.notesList{
 		background: #F2F2F2;
 	}
@@ -51,12 +59,45 @@
 <script>
 	import { mapState,mapActions } from 'vuex'
 	export default{
-		computed:mapState({
-			notes:state=>{
-				return state.notes
+		data(){
+			return{
+				types:['全部','日常','公司'],
+				selectType:'全部',
+				keywords:'',
+				//notes:this.$store.state.notes
 			}
-		}),
+		},
+		computed:{
+			notes(){
+				return this.$store.state.notes.filter((item)=>{
+					return item.content.indexOf(this.keywords)!==-1
+				})
+			}
+		},
 		methods:{
+			filterType(value){
+				const defaultNotes=JSON.parse(localStorage.getItem('notes'));
+				if(value=='全部'){
+					this.$store.state.notes=defaultNotes
+				}else{
+					let result=[]
+					defaultNotes.forEach((item)=>{
+						if(item.type==value){
+							result.push(item)
+						}
+					})
+					this.$store.state.notes=result;
+				}
+			},
+			handlerSelectType(value){
+				this.selectType=value;
+				this.filterType(value)
+			},
+			filterHtmlStr(str){
+			    let reg = new RegExp("(" + this.keywords + ")", "g")
+			    let result = str.replace(reg, "<font color=red>$1</font>")
+			    return result
+			},
 			addNotes(){
 				this.$router.push({
 					name:'AddNotes'
@@ -75,8 +116,7 @@
 			}
 		},
 		mounted(){
-
-			console.log(this.$store);
+			//console.log(this.$store);
 		}
 	}
 </script>

@@ -1,9 +1,9 @@
 <template>
 	<div class="header">
-		<div class="header-back" @click="handlerBack">返回</div>
+		<div class="header-back" @click="handlerBack"><i class="iconfont icon-fanhui"></i></div>
 		<div class="header-operation">
-			<span>换肤</span>
-			<span @click.stop="handlerShowDropDown">操作</span>
+			<span><i class="iconfont icon-pifugexinghuazhuti-xianxing"></i></span>
+			<span @click.stop="handlerShowDropDown"><i class="iconfont icon-daohanggengduoanzhuo"></i></span>
 		</div>
 		<ul class="header-dropDownList" :class="{open:this.$store.state.showDropDown}">
 			<li>分享</li>
@@ -33,6 +33,7 @@
 				})
 			},
 			handlerBack(){
+				this.$parent.addNotes();
 				this.$router.go(-1)
 			},
 			handlerPlacedTop(){
@@ -76,7 +77,7 @@
 			}else{
 				this.$store.dispatch('setTop',true)
 			}
-			console.log(this.$store.state.isTop)
+		//	console.log(this.$store.state.isTop)
 		}
 
 	}

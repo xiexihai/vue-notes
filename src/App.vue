@@ -13,6 +13,7 @@ export default {
 </script>
 
 <style>
+
 *{
   margin:0;
   padding:0;
@@ -71,6 +72,7 @@ ul,ol{
   right: 6px;
   top: 54px;
   box-shadow: 0 0 10px #ddd;
+  background: #fff;
   display: none;
 }
 .header-dropDownList.open{
@@ -118,7 +120,7 @@ ul,ol{
       $route(to, from) {
         const toDepth = to.path.split("/").length;
         const fromDepth = from.path.split("/").length;
-        console.log(to.path)
+       // console.log(to.path)
         if(to.path != "/addNotes"){
           if (to.path == "/") {
             this.direction = "slide-right";
