@@ -1,25 +1,33 @@
 <template>
 	<div class="notesList">
-		<input type="text" v-model="keywords" name="">
+		<div class="aside-mask" :class="{open:openAsideBar=='true'}" @click="handlerCloseAsideBar"></div>
+		<aside-bar :openAsideBar="openAsideBar" @updeteAsideBar="changeAsideBar"></aside-bar>
+		<header-bar @updeteAsideBar="changeAsideBar"></header-bar>
+		<!--<input type="text" v-model="keywords" name="">
 		<div class="notesType">
 			<div class="item" :class="{active:item==selectType}" v-for="(item,index) in types" @click="handlerSelectType(item)">{{item}}</div>
+		</div>-->
+		<div class="notesWrap">
+			<div class="notesItem" v-for="(item,index) in notes" :class="{isTop:item.isTop}" @click="editNotes(item)" v-if="notes.length">
+				<div class="notesText">
+					<div class="notesTitle" v-html="filterHtmlStr(item.content)"></div>
+					<div class="notesTime">{{item.date}}</div>
+				</div>	
+			</div>
+			<div class="notesEmpty" v-if="!notes.length">暂无便签！</div>
+			<div class="btnAddNotes" @click="addNotes">+</div>
 		</div>
-		<div class="notesItem" v-for="(item,index) in notes" :class="{isTop:item.isTop}" @click="editNotes(item)" v-if="notes.length">
-			<div class="notesText">
-				<div class="notesTitle" v-html="filterHtmlStr(item.content)"></div>
-				<div class="notesTime">{{item.date}}</div>
-			</div>	
-		</div>
-		<div class="notesEmpty" v-if="!notes.length">暂无便签！</div>
-		<div class="btnAddNotes" @click="addNotes">+</div>
 	</div>
 </template>
 <style scoped>
+	.notesWrap{
+		margin-top:50px;
+	}
 	.notesType .active{
 		color:red;
 	}	
 	.notesList{
-		background: #F2F2F2;
+		background: #f9f9f9;
 	}
 	.notesItem{
 		border-radius: 2px;
@@ -27,7 +35,7 @@
 		padding: 15px;
 		overflow: hidden;
 		box-sizing: border-box;
-		box-shadow: 0 3px 5px #eaeaea;
+		box-shadow: 0 3px 5px #f7f7f7;
 		background: #fff;
 	}
 	.notesItem.isTop{
@@ -57,13 +65,20 @@
 	}
 </style>
 <script>
+	import AsideBar from '../components/AsideBar.vue'
+	import HeaderBar from '../components/HeaderBar.vue'
 	import { mapState,mapActions } from 'vuex'
 	export default{
+		components:{
+			HeaderBar,
+			AsideBar
+		},
 		data(){
 			return{
-				types:['全部','日常','公司'],
-				selectType:'全部',
+				//types:this.$store.state.notesType,
+				//selectType:'全部',
 				keywords:'',
+				openAsideBar:'false'
 				//notes:this.$store.state.notes
 			}
 		},
@@ -75,23 +90,12 @@
 			}
 		},
 		methods:{
-			filterType(value){
-				const defaultNotes=JSON.parse(localStorage.getItem('notes'));
-				if(value=='全部'){
-					this.$store.state.notes=defaultNotes
-				}else{
-					let result=[]
-					defaultNotes.forEach((item)=>{
-						if(item.type==value){
-							result.push(item)
-						}
-					})
-					this.$store.state.notes=result;
-				}
+			handlerCloseAsideBar(){
+				this.openAsideBar='false';
 			},
-			handlerSelectType(value){
-				this.selectType=value;
-				this.filterType(value)
+			changeAsideBar(value){
+				console.log(value)
+				this.openAsideBar=value;
 			},
 			filterHtmlStr(str){
 			    let reg = new RegExp("(" + this.keywords + ")", "g")
@@ -103,10 +107,12 @@
 					name:'AddNotes'
 				})
 				this.$store.dispatch('addOrUpdate','add')
+				this.$store.state.notes=JSON.parse(localStorage.getItem('notes'));
 			},
 			editNotes(item){
 				this.$store.dispatch('updateNotes',item)
 				this.$store.dispatch('addOrUpdate','update')
+				this.$store.state.notes=JSON.parse(localStorage.getItem('notes'));
 				this.$router.push({
 					name:'AddNotes',
 					query:{

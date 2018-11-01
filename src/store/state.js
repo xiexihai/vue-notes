@@ -4,6 +4,7 @@ const state={
 	notesUpdateData:localStorage.getItem('notesUpdateData')?JSON.parse(localStorage.getItem('notesUpdateData')):{},
 	showDropDown:false,
 	isTop:false,
-	addOrUpdate:localStorage.getItem('addOrUpdate')?localStorage.getItem('addOrUpdate'):'add'
+	addOrUpdate:localStorage.getItem('addOrUpdate')?localStorage.getItem('addOrUpdate'):'add',
+	notesType:localStorage.getItem('notesType')?JSON.parse(localStorage.getItem('notesType')):[]
 }
 export default state

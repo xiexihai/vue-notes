@@ -53,7 +53,16 @@ const mutations={
 	[types.ADD_OR_UPDATE](state,value){
 		state.addOrUpdate=value
 		localStorage.setItem('addOrUpdate',value)
-	}
+	},
+	//添加便签类型
+	[types.ADD_NOTESTYPE](state,value){
+		let data={
+			checked:false,
+			value:value
+		}
+		state.notesType.unshift(data)
+		localStorage.setItem('notesType',JSON.stringify(state.notesType))
+	},
 
 }
 export default mutations

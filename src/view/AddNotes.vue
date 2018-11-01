@@ -1,8 +1,18 @@
 <template>
 	<div class="panelAddNotes" @click="hideDropDown">
 		<header-bar></header-bar>
-		<div class="notesTypeList">
-			<span :class="{active:item==selectType}" v-for="(item,index) in types" @click="handlerSelectType(item)">{{item}}</span>
+		<div class="notesOperation">
+			<!--<div class="AddTypeWrap">
+				<label>{{selectType}}</label>
+				<div class="notesTypeList">
+					<span :class="{active:item==selectType}" v-for="(item,index) in types" @click="handlerSelectType(item)">{{item}}</span>
+				</div>
+			</div>
+			-->
+			<notes-type :types="types" :selectType="selectType" @updateSelectType="changeSelectType"></notes-type>
+			<div class="notesTime">
+				10:50
+			</div>
 		</div>
 		<textarea v-model="content" class="textarea" rows="10" autofocus="autofocus" placeholder="记事"></textarea>
 		<!--<button @click="addNotes()">提交</button>-->
@@ -12,19 +22,21 @@
 	.panelAddNotes{
 		background: #f9f9f9;
 	}
-	.notesTypeList{
-		margin-top:80px;
-	}
-	.notesTypeList .active{
-		color:red;
+	.notesOperation{
+		display:flex;
+		justify-content:space-between;
+		margin-top:60px;
+		padding:0 20px;
+		line-height:30px;
+		font-size:14px;
 	}
 	.textarea{
-		margin-top: 50px;
-		width: 100%;
+		width:100%;
 		padding:15px 20px;
 		font:14px/26px 'Micrsoft YaHei';
 		border:none;
-		box-sizing: border-box;
+		box-sizing:border-box;
+		background:transparent;
 	}
 	button{
 		display: block;
@@ -43,28 +55,30 @@
 <script>
 	import { mapState } from 'vuex'
 	import HeaderBar from '../components/HeaderBar.vue'
+	import NotesType from '../components/NotesType.vue'
 	export default{
 		components:{
-			HeaderBar
+			HeaderBar,
+			NotesType
 		},
 		data(){
 			return{
-				types:['全部','日常','公司'],
-				selectType:'全部',
+				types:this.$store.state.notesType,
+				selectType:this.$route.query.id?this.$store.state.notesUpdateData.type:'全部',
 				content:""
 			}
 		},
 		methods:{
-			handlerSelectType(item){
-				this.selectType=item;
-			},
 			hideDropDown(){
 				this.$store.dispatch('setDropDown',false)
+			},
+			changeSelectType(value){
+				this.selectType=value;
 			},
 			addNotes(){
 				
 				if(this.content==''){
-					alert('请输入内容！');
+				//	alert('请输入内容！');
 					return
 				}
 
@@ -101,9 +115,9 @@
 		mounted(){
 		
 			if(this.$route.query.id){
-				console.log(this.$store.state)
+				//console.log(this.$store.state)
 				this.content=this.$store.state.notesUpdateData.content;
-				this.selectType=this.$store.state.notesUpdateData.type;
+				//this.selectType=this.$store.state.notesUpdateData.type;
 			}
 		}
 	}

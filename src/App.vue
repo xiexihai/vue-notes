@@ -48,8 +48,9 @@ ul,ol{
   height: 48px;
   line-height: 48px;
   font-size: 14px;
-  border-bottom: 1px solid #f2f2f2;
-  background-color: #fff;
+  background:#f9f9f9;
+  /*border-bottom: 1px solid #f2f2f2;
+  background-color: #fff;*/
 }
 .header-back{
   position: absolute;
@@ -83,6 +84,42 @@ ul,ol{
   margin: 0 10px;
   border-bottom: 1px solid #f5f5f5;
 }
+.header-panel{
+  display:flex;
+}
+.btnNav{
+  height:48px;
+  padding:0 20px;
+}
+.btnNav i{
+  font-size:22px;
+}
+.webTitle{
+  flex:1;
+  font-size:16px;
+}
+.btnSearch{
+  padding:0 20px;
+}
+.btnSearch i{
+  font-size:20px;
+}
+
+
+.aside-mask{
+  position:fixed;
+  left:0;
+  right:0;
+  width:100%;
+  height:100%;
+  z-index:19900322;
+  background:rgba(0,0,0,.5);
+  display:none;
+}
+.aside-mask.open{
+  display:block;
+}
+
 .slide-left-enter{
   transform: translate(100%, 0);
 }

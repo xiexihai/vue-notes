@@ -24,6 +24,9 @@ const actions={
 	},
 	addOrUpdate({commit},value){
 		commit('ADD_OR_UPDATE',value)
+	},
+	addNotesType({commit},data){
+		commit('ADD_NOTESTYPE',data)
 	}
 }
 export default actions

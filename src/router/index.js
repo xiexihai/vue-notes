@@ -14,6 +14,11 @@ export default new Router({
        	path: '/addNotes',
         name: 'AddNotes',
         component: resolve => require.ensure([], () => resolve(require('../view/AddNotes')), 'addNotes')
+    },
+    {
+        path: '/addNotesType',
+        name: 'AddNotesType',
+        component: resolve => require.ensure([], () => resolve(require('../view/addNotesType')), 'addNotesType')
     }
   ]
 })

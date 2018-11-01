@@ -6,3 +6,4 @@ export const SET_TOP = 'SET_TOP'   				//是否置顶便签
 export const SAVE_NOTES_ID = 'SAVE_NOTES_ID' 	//保存添加时的notes id 递增
 export const SET_DROPDOWN = 'SET_DROPDOWN' 		//设置dropdown显示状态
 export const ADD_OR_UPDATE = 'ADD_OR_UPDATE' 	//记录便签是新增还是更新操作
+export const ADD_NOTESTYPE = 'ADD_NOTESTYPE' 	//添加便签类型
